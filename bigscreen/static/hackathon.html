@@ -1,0 +1,1050 @@
+﻿<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>index</title>
+    <script type="text/javascript" src="../static/js/jquery.js"></script>
+    <link rel="stylesheet" href="../static/css/comon0.css">
+</head>
+<script>
+	$(window).load(function(){  
+             $(".loading").fadeOut()
+            })  
+			
+/****/
+$(document).ready(function(){
+	var whei=$(window).width()
+	$("html").css({fontSize:whei/20})
+	$(window).resize(function(){
+		var whei=$(window).width()
+	 $("html").css({fontSize:whei/20})
+});
+	});
+
+
+
+
+
+
+</script>
+<script type="text/javascript" src="../static/js/echarts.min.js"></script>
+<script type="text/javascript" src="../static/js/china.js"></script>
+
+<body>
+<div class="canvas" style="opacity: .2">
+    <iframe frameborder="0" src="../static/js/index.html" style="width: 100%; height: 100%"></iframe>
+</div>
+<div class="loading">
+    <div class="loadbox"><img src="../static/picture/loading.gif"> 页面加载中...</div>
+</div>
+<div class="head">
+    <h1>第11届中国黑客松参会数据展示</h1>
+    <div class="weather">
+        <!--        <img src="picture/weather.png"><span>多云转小雨</span>-->
+        <span id="showTime"></span>
+    </div>
+    <div class="adnote">
+        <span>数据由Hadoop 2.7 Arm版计算生成</span>
+    </div>
+
+    <script>
+var t = null;
+    t = setTimeout(time,1000);//開始运行
+    function time()
+    {
+       clearTimeout(t);//清除定时器
+       dt = new Date();
+		var y=dt.getFullYear();
+		var mt=dt.getMonth()+1;
+		var day=dt.getDate();
+       var h=dt.getHours();//获取时
+       var m=dt.getMinutes();//获取分
+       var s=dt.getSeconds();//获取秒
+       document.getElementById("showTime").innerHTML = y+"年"+mt+"月"+day+"日"+"-"+h+"时"+m+"分"+s+"秒";
+       t = setTimeout(time,1000); //设定定时器，循环运行     
+    } 
+
+
+
+    </script>
+
+
+</div>
+<div class="mainbox">
+    <ul class="clearfix">
+        <li>
+            <div class="boxall" style="height: 3.2rem">
+                <div class="alltitle">参会省份分布（Top 10）</div>
+                <div class="allnav" id="echart1"></div>
+                <div class="boxfoot"></div>
+            </div>
+            <div class="boxall" style="height: 3.2rem">
+                <div class="alltitle">参会城市分布（Top 10）</div>
+                <div class="allnav" id="echart2"></div>
+                <div class="boxfoot"></div>
+            </div>
+            <div class="boxall" style="height: 3.2rem">
+                <div style="height:100%; width: 100%;">
+<!--                    <div class="sy" id="fb1"></div>-->
+                    <div class="sy" id="fb2"></div>
+                    <div class="sy" id="fb3"></div>
+                </div>
+                <div class="boxfoot"></div>
+            </div>
+        </li>
+        <li>
+            <div class="bar">
+                <div class="barbox">
+                    <ul class="clearfix">
+                        <li class="pulll_left counter">30</li>
+                        <li class="pulll_left counter">118</li>
+                    </ul>
+                </div>
+                <div class="barbox2">
+                    <ul class="clearfix">
+                        <li class="pulll_left">参会公司数</li>
+                        <li class="pulll_left">参会总人数</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="map">
+                <div class="map1"><img src="../static/picture/lbx.png"></div>
+                <div class="map2"><img src="../static/picture/jt.png"></div>
+                <div class="map3"><img src="../static/picture/map.png"></div>
+                <div class="map4" id="map_1"></div>
+            </div>
+        </li>
+        <li>
+            <div class="boxall" style="height: 3.2rem">
+                <div class="alltitle">历届参与情况</div>
+                <div class="allnav" id="echart4"></div>
+                <div class="boxfoot"></div>
+            </div>
+            <div class="boxall" style="height: 3.2rem">
+                <div class="alltitle">参会公司分布（Top 10）</div>
+                <div class="allnav" id="echart5"></div>
+                <div class="boxfoot"></div>
+            </div>
+            <div class="boxall" style="height: 3.2rem">
+                <div class="alltitle">任务分布情况</div>
+                <div class="allnav" id="echart6"></div>
+                <div class="boxfoot"></div>
+            </div>
+        </li>
+    </ul>
+</div>
+<div class="back"></div>
+
+<!--echart1-->
+<script>
+$(function echarts_1() {
+        // 基于准备好的dom，初始化echarts实例
+        var myChart = echarts.init(document.getElementById('echart1'));
+
+       option = {
+  //  backgroundColor: '#00265f',
+    tooltip: {
+        trigger: 'axis',
+        axisPointer: {
+            type: 'shadow'
+        }
+    },
+    grid: {
+        left: '0%',
+		top:'10px',
+        right: '0%',
+        bottom: '4%',
+       containLabel: true
+    },
+    xAxis: [{
+        type: 'category',
+      		data: ['湖南', '陕西', '北京', '江苏', '广东', '上海', '四川', '山东', '天津', '安徽'],
+        axisLine: {
+            show: true,
+         lineStyle: {
+                color: "rgba(255,255,255,.1)",
+                width: 1,
+                type: "solid"
+            },
+        },
+
+        axisTick: {
+            show: false,
+        },
+		axisLabel:  {
+                interval: 0,
+               // rotate:50,
+                show: true,
+                splitNumber: 15,
+                textStyle: {
+ 					color: "rgba(255,255,255,.6)",
+                    fontSize: '12',
+                },
+            },
+    }],
+    yAxis: [{
+        type: 'value',
+        axisLabel: {
+           //formatter: '{value} %'
+			show:true,
+			 textStyle: {
+ 					color: "rgba(255,255,255,.6)",
+                    fontSize: '12',
+                },
+        },
+        axisTick: {
+            show: false,
+        },
+        axisLine: {
+            show: true,
+            lineStyle: {
+                color: "rgba(255,255,255,.1	)",
+                width: 1,
+                type: "solid"
+            },
+        },
+        splitLine: {
+            lineStyle: {
+               color: "rgba(255,255,255,.1)",
+            }
+        }
+    }],
+    series: [
+		{
+        type: 'bar',
+        data: [28, 17, 16, 10, 9, 6, 6, 3, 2, 2],
+        barWidth:'35%', //柱子宽度
+       // barGap: 1, //柱子之间间距
+        itemStyle: {
+            normal: {
+                color:'#2f89cf',
+                opacity: 1,
+				barBorderRadius: 5,
+            }
+        }
+    }
+
+	]
+};
+
+        // 使用刚指定的配置项和数据显示图表。
+        myChart.setOption(option);
+        window.addEventListener("resize",function(){
+            myChart.resize();
+        });
+    })
+
+
+
+
+
+
+</script>
+<!--echart2-->
+<script>
+  $(function echarts_2() {
+        // 基于准备好的dom，初始化echarts实例
+        var myChart = echarts.init(document.getElementById('echart2'));
+
+       option = {
+  //  backgroundColor: '#00265f',
+    tooltip: {
+        trigger: 'axis',
+        axisPointer: { type: 'shadow'}
+    },
+    grid: {
+        left: '0%',
+		top:'10px',
+        right: '0%',
+        bottom: '4%',
+       containLabel: true
+    },
+    xAxis: [{
+        type: 'category',
+      		data: ['长沙', '西安', '北京', '南京', '上海', '深圳', '成都', '济南', '天津', '广州'],
+        axisLine: {
+            show: true,
+         lineStyle: {
+                color: "rgba(255,255,255,.1)",
+                width: 1,
+                type: "solid"
+            },
+        },
+
+        axisTick: {
+            show: false,
+        },
+		axisLabel:  {
+                interval: 0,
+               // rotate:50,
+                show: true,
+                splitNumber: 15,
+                textStyle: {
+ 					color: "rgba(255,255,255,.6)",
+                    fontSize: '12',
+                },
+            },
+    }],
+    yAxis: [{
+        type: 'value',
+        axisLabel: {
+           //formatter: '{value} %'
+			show:true,
+			 textStyle: {
+ 					color: "rgba(255,255,255,.6)",
+                    fontSize: '12',
+                },
+        },
+        axisTick: {
+            show: false,
+        },
+        axisLine: {
+            show: true,
+            lineStyle: {
+                color: "rgba(255,255,255,.1	)",
+                width: 1,
+                type: "solid"
+            },
+        },
+        splitLine: {
+            lineStyle: {
+               color: "rgba(255,255,255,.1)",
+            }
+        }
+    }],
+    series: [
+		{
+
+        type: 'bar',
+        data: [22, 17, 16, 7, 6, 6, 5, 3, 2, 2],
+        barWidth:'35%', //柱子宽度
+       // barGap: 1, //柱子之间间距
+        itemStyle: {
+            normal: {
+                color:'#27d08a',
+                opacity: 1,
+				barBorderRadius: 5,
+            }
+        }
+    }
+
+	]
+};
+
+        // 使用刚指定的配置项和数据显示图表。
+        myChart.setOption(option);
+        window.addEventListener("resize",function(){
+            myChart.resize();
+        });
+    })
+
+
+
+
+
+
+
+</script>
+<!--echarts3_1-->
+<!--<script>-->
+<!--$(function echarts_31() {-->
+<!--    // 基于准备好的dom，初始化echarts实例-->
+<!--    var myChart = echarts.init(document.getElementById('fb1'));-->
+<!--    option = {-->
+<!--	    title: [{-->
+<!--        text: '项目分布',-->
+<!--        left: 'center',-->
+<!--        textStyle: {-->
+<!--            color: '#fff',-->
+<!--			fontSize:'12'-->
+<!--        }-->
+<!--    }],-->
+<!--    tooltip: {-->
+<!--        trigger: 'item',-->
+<!--        formatter: "{a} <br/>{b}: {c} ({d}%)",-->
+<!--        position:function(p){   //其中p为当前鼠标的位置-->
+<!--        return [p[0] + 10, p[1] - 10];-->
+<!--        }-->
+<!--    },-->
+<!--    legend: {-->
+<!--        top:'70%',-->
+<!--        itemWidth: 10,-->
+<!--        itemHeight: 10,-->
+<!--        data:['OpenStack', 'Hadoop/openEuler', 'openGauss', 'KubeEdge/MindSpore', 'Kata', 'K8s', 'Celadon', 'Ceph', 'DB/openEuler', 'openLooKeng'],-->
+<!--        textStyle: {-->
+<!--            color: 'rgba(255,255,255,.5)',-->
+<!--            fontSize:'12',-->
+<!--        }-->
+<!--    },-->
+<!--    series: [-->
+<!--        {-->
+<!--        	name:'项目分布',-->
+<!--            type:'pie',-->
+<!--			center: ['50%', '42%'],-->
+<!--            radius: ['40%', '60%'],-->
+<!--                  color: ['#065aab', '#066eab', '#0682ab', '#0696ab', '#06a0ab','#06b4ab','#06c8ab','#06dcab','#06f0ab'],-->
+<!--            label: {show:false},-->
+<!--			labelLine: {show:false},-->
+<!--            data:[{'name': 'OpenStack', 'value': 47}, {'name': 'Hadoop/openEuler', 'value': 18}, {'name': 'openGauss', 'value': 16}, {'name': 'KubeEdge/MindSpore', 'value': 14}, {'name': 'Kata', 'value': 11}, {'name': 'K8s', 'value': 10}, {'name': 'Celadon', 'value': 7}, {'name': 'Ceph', 'value': 6}, {'name': 'DB/openEuler', 'value': 5}, {'name': 'openLooKeng', 'value': 5}]-->
+<!--        }-->
+<!--    ]-->
+<!--};-->
+<!--    // 使用刚指定的配置项和数据显示图表。-->
+<!--    myChart.setOption(option);-->
+<!--    window.addEventListener("resize",function(){-->
+<!--        myChart.resize();-->
+<!--    });-->
+<!--})-->
+
+
+<!--</script>-->
+<!--echarts3_2-->
+<script>
+$(function echarts_32() {
+    // 基于准备好的dom，初始化echarts实例
+    var myChart = echarts.init(document.getElementById('fb2'));
+    option = {
+	    title: [{
+        text: '任务类型',
+        left: 'center',
+        textStyle: {
+            color: '#fff',
+			fontSize:'12'
+        }
+
+    }],
+    tooltip: {
+        trigger: 'item',
+        formatter: "{a} <br/>{b}: {c} ({d}%)",
+        position:function(p){   //其中p为当前鼠标的位置
+            return [p[0] + 10, p[1] - 10];
+        }
+    },
+    legend: {
+        show: true,
+        top:'bottom',
+        itemWidth: 10,
+        itemHeight: 10,
+        data:['特性', '动手', 'Bugfix'],
+        textStyle: {
+        color: 'rgba(255,255,255,.5)',
+		fontSize:'12',
+        }
+    },
+    series: [
+        {
+        	name:'任务类型',
+            type:'pie',
+            radius: ['40%', '60%'],
+            color: ['#065aab', '#066eab', '#0682ab', '#0696ab', '#06a0ab','#06b4ab','#06c8ab','#06dcab','#06f0ab'],
+            label: {show:false},
+			labelLine: {show:false},
+            data:[{'name': '特性', 'value': 11}, {'name': '动手', 'value': 5}, {'name': 'Bugfix', 'value': 10}]
+        }
+    ]
+};
+
+// 使用刚指定的配置项和数据显示图表。
+myChart.setOption(option);
+window.addEventListener("resize",function(){
+    myChart.resize();
+});
+})
+
+
+</script>
+<!--echarts3_3-->
+<script>
+$(function echarts_33() {
+    // 基于准备好的dom，初始化echarts实例
+    var myChart = echarts.init(document.getElementById('fb3'));
+    option = {
+        title: [{
+        text: '男女比例',
+        left: 'center',
+        textStyle: {
+            color: '#fff',
+            fontSize:'12'
+        }
+    }],
+    tooltip: {
+        trigger: 'item',
+        formatter: "{a} <br/>{b}: {c} ({d}%)",
+        position:function(p){   //其中p为当前鼠标的位置
+            return [p[0] + 10, p[1] - 10];
+        }
+    },
+    legend: {
+        top:'bottom',
+        show: true,
+        itemWidth: 10,
+        itemHeight: 10,
+        data:['男性', '女性'],
+        textStyle: {
+            color: 'rgba(255,255,255,.5)',
+			fontSize:'11',
+        }
+    },
+    series: [
+        {
+        	name:'男女比例',
+            type:'pie',
+            radius: ['40%', '60%'],
+            color: ['#065aab', '#066eab', '#0682ab', '#0696ab', '#06a0ab','#06b4ab','#06c8ab','#06dcab','#06f0ab'],
+            label: {show:false},
+			labelLine: {show:false},
+            data:[{'name': '男性', 'value': 113}, {'name': '女性', 'value': 5}]
+        }
+    ]
+};
+
+        // 使用刚指定的配置项和数据显示图表。
+        myChart.setOption(option);
+        window.addEventListener("resize",function(){
+            myChart.resize();
+        });
+    })
+
+
+
+
+
+</script>
+<!--echarts4-->
+<script>
+$(function echarts_4() {
+    // 基于准备好的dom，初始化echarts实例
+    var myChart = echarts.init(document.getElementById('echart4'));
+    option = {
+	    tooltip: {
+        trigger: 'axis',
+        axisPointer: {
+            lineStyle: {
+                color: '#dddc6b'
+            }
+        }
+    },
+	legend: {
+        top:'0%',
+        data:['人数', '公司数'],
+        textStyle: {
+            color: 'rgba(255,255,255,.5)',
+            fontSize:'12',
+        }
+    },
+    grid: {
+        left: '10',
+		top: '30',
+        right: '10',
+        bottom: '10',
+        containLabel: true
+    },
+    xAxis: [{
+        type: 'category',
+        boundaryGap: false,
+        axisLabel:  {
+            textStyle: {
+                color: "rgba(255,255,255,.6)",
+                fontSize:12,
+            },
+        },
+        axisLine: {
+			lineStyle: {
+				color: 'rgba(255,255,255,.2)'
+			}
+        },
+        data: ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11']
+    }, {
+        axisPointer: {show: false},
+        axisLine: {show: false},
+        position: 'bottom',
+        offset: 20,
+    }],
+    yAxis: [{
+        type: 'value',
+        axisTick: {show: false},
+        axisLine: {
+            lineStyle: {
+                color: 'rgba(255,255,255,.1)'
+            }
+        },
+        axisLabel:  {
+            textStyle: {
+                color: "rgba(255,255,255,.6)",
+                fontSize:12,
+            },
+        },
+        splitLine: {
+            lineStyle: {
+                 color: 'rgba(255,255,255,.1)'
+            }
+        }
+    }],
+    series: [
+	{
+        name: '人数',
+        data: [20, 50, 59, 60, 60, 50, 36, 102, 101, 109, 118],
+        type: 'line',
+        smooth: true,
+        symbol: 'circle',
+        symbolSize: 5,
+        showSymbol: false,
+        lineStyle: {
+            normal: {
+				color: '#0184d5',
+                width: 2
+            }
+        },
+        areaStyle: {
+            normal: {
+                color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                    offset: 0,
+                    color: 'rgba(1, 132, 213, 0.4)'
+                }, {
+                    offset: 0.8,
+                    color: 'rgba(1, 132, 213, 0.1)'
+                }], false),
+                shadowColor: 'rgba(0, 0, 0, 0.1)',
+            }
+        },
+			itemStyle: {
+			normal: {
+				color: '#0184d5',
+				borderColor: 'rgba(221, 220, 107, .1)',
+				borderWidth: 12
+			}
+		},
+    },
+    {
+        name: '公司数',
+        data: [3, 8, 9, 16, 15, 14, 11, 21, 20, 28, 30],
+        type: 'line',
+        smooth: true,
+        symbol: 'circle',
+        symbolSize: 5,
+        showSymbol: false,
+        lineStyle: {
+            normal: {
+				color: '#00d887',
+                width: 2
+            }
+        },
+        areaStyle: {
+            normal: {
+                color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                    offset: 0,
+                    color: 'rgba(0, 216, 135, 0.4)'
+                }, {
+                    offset: 0.8,
+                    color: 'rgba(0, 216, 135, 0.1)'
+                }], false),
+                shadowColor: 'rgba(0, 0, 0, 0.1)',
+            }
+        },
+			itemStyle: {
+			normal: {
+				color: '#00d887',
+				borderColor: 'rgba(221, 220, 107, .1)',
+				borderWidth: 12
+			}
+		},
+    },
+]
+};
+    // 使用刚指定的配置项和数据显示图表。
+    myChart.setOption(option);
+    window.addEventListener("resize",function(){
+        myChart.resize();
+    });
+})
+
+</script>
+<!--echarts5-->
+<script>
+$(function echarts_5() {
+    // 基于准备好的dom，初始化echarts实例
+    var myChart = echarts.init(document.getElementById('echart5'));
+
+    option = {
+        //  backgroundColor: '#00265f',
+        tooltip: {
+            trigger: 'axis',
+            axisPointer: {
+                type: 'shadow'
+            }
+    },
+    grid: {
+        left: '0%',
+        top:'10px',
+        right: '0%',
+        bottom: '2%',
+        containLabel: true
+    },
+    xAxis: [{
+        type: 'category',
+      		data: ['华为', 'Intel', '麒麟', '浪潮', '烽火', 'CSU', 'HNU', '中兴', '移动', '蚂蚁'],
+        axisLine: {
+            show: true,
+            lineStyle: {
+                color: "rgba(255,255,255,.1)",
+                width: 1,
+                type: "solid"
+            },
+        },
+        axisTick: {
+            show: false,
+        },
+		axisLabel:  {
+            interval: 0,
+           // rotate:50,
+            show: true,
+            splitNumber: 15,
+            textStyle: {
+                color: "rgba(255,255,255,.6)",
+                fontSize: '12',
+            },
+        },
+    }],
+    yAxis: [{
+        type: 'value',
+        axisLabel: {
+            //formatter: '{value} %'
+            show:true,
+            textStyle: {
+                color: "rgba(255,255,255,.6)",
+                fontSize: '12',
+            },
+        },
+        axisTick: {
+            show: false,
+        },
+        axisLine: {
+            show: true,
+            lineStyle: {
+                color: "rgba(255,255,255,.1	)",
+                width: 1,
+                type: "solid"
+            },
+        },
+        splitLine: {
+            lineStyle: {
+               color: "rgba(255,255,255,.1)",
+            }
+        }
+    }],
+    series: [{
+        type: 'bar',
+        data: [23, 11, 11, 7, 7, 6, 6, 3, 3, 3],
+        barWidth:'35%', //柱子宽度
+       // barGap: 1, //柱子之间间距
+        itemStyle: {
+            normal: {
+                color:'#2f89cf',
+                opacity: 1,
+				barBorderRadius: 5,
+            }
+        }
+    }
+	]
+};
+
+    // 使用刚指定的配置项和数据显示图表。
+    myChart.setOption(option);
+    window.addEventListener("resize",function(){
+        myChart.resize();
+    });
+})
+
+
+</script>
+<!--echarts6-->
+<script>
+$(function echarts_6() {
+    // 基于准备好的dom，初始化echarts实例
+    var myChart = echarts.init(document.getElementById('echart6'));
+    option = {
+        title: [{
+        left: 'center',
+        textStyle: {
+            color: '#fff',
+            fontSize:'12'
+        }
+    }],
+    tooltip: {
+        trigger: 'item',
+        formatter: "{a} <br/>{b}: {c} ({d}%)",
+        position:function(p){   //其中p为当前鼠标的位置
+        return [p[0] + 10, p[1] - 10];
+        }
+    },
+    legend: {
+        top:'70%',
+        itemWidth: 10,
+        itemHeight: 10,
+        data:['OpenStack', 'Hadoop/openEuler', 'openGauss', 'KubeEdge/MindSpore', 'Kata', 'K8s', 'Celadon', 'Ceph', 'DB/openEuler', 'openLooKeng'],
+        textStyle: {
+            color: 'rgba(255,255,255,.5)',
+            fontSize:'12',
+        }
+    },
+    series: [
+        {
+            name:'项目分布',
+            type:'pie',
+            center: ['50%', '42%'],
+            radius: ['40%', '60%'],
+                  color: ['#065aab', '#066eab', '#0682ab', '#0696ab', '#06a0ab','#06b4ab','#06c8ab','#06dcab','#06f0ab'],
+            label: {show:false},
+            labelLine: {show:false},
+            data:[{'name': 'OpenStack', 'value': 47}, {'name': 'Hadoop/openEuler', 'value': 18}, {'name': 'openGauss', 'value': 16}, {'name': 'KubeEdge/MindSpore', 'value': 14}, {'name': 'Kata', 'value': 11}, {'name': 'K8s', 'value': 10}, {'name': 'Celadon', 'value': 7}, {'name': 'Ceph', 'value': 6}, {'name': 'DB/openEuler', 'value': 5}, {'name': 'openLooKeng', 'value': 5}]
+        }
+    ]
+    };
+
+    // 使用刚指定的配置项和数据显示图表。
+    myChart.setOption(option);
+    window.addEventListener("resize",function(){
+        myChart.resize();
+    });
+    })
+
+
+
+
+</script>
+
+<!--map_1-->
+<script>
+$(function map() {
+// 基于准备好的dom，初始化echarts实例
+var myChart = echarts.init(document.getElementById('map_1'));
+var data = {'lines': [{'fromName': '长沙', 'toName': '长沙', 'coords': [[113, 28.21], [113, 28.21]]}, {'fromName': '西安', 'toName': '长沙', 'coords': [[108.95, 34.27], [113, 28.21]]}, {'fromName': '北京', 'toName': '长沙', 'coords': [[116.46, 39.92], [113, 28.21]]}, {'fromName': '南京', 'toName': '长沙', 'coords': [[118.78, 32.04], [113, 28.21]]}, {'fromName': '上海', 'toName': '长沙', 'coords': [[121.48, 31.22], [113, 28.21]]}, {'fromName': '深圳', 'toName': '长沙', 'coords': [[114.07, 22.62], [113, 28.21]]}, {'fromName': '成都', 'toName': '长沙', 'coords': [[104.06, 30.67], [113, 28.21]]}, {'fromName': '济南', 'toName': '长沙', 'coords': [[117, 36.65], [113, 28.21]]}, {'fromName': '天津', 'toName': '长沙', 'coords': [[117.2, 39.13], [113, 28.21]]}, {'fromName': '广州', 'toName': '长沙', 'coords': [[113.23, 23.16], [113, 28.21]]}, {'fromName': '益阳', 'toName': '长沙', 'coords': [[112, 27.58], [113, 28.21]]}, {'fromName': '苏州', 'toName': '长沙', 'coords': [[120.62, 31.32], [113, 28.21]]}, {'fromName': '郑州', 'toName': '长沙', 'coords': [[113.65, 34.76], [113, 28.21]]}, {'fromName': '佛山', 'toName': '长沙', 'coords': [[113.11, 23.05], [113, 28.21]]}, {'fromName': '兰州', 'toName': '长沙', 'coords': [[103.73, 36.03], [113, 28.21]]}, {'fromName': '合肥', 'toName': '长沙', 'coords': [[117.27, 31.86], [113, 28.21]]}, {'fromName': '娄底', 'toName': '长沙', 'coords': [[112.008497, 27.728136], [113, 28.21]]}, {'fromName': '宜宾', 'toName': '长沙', 'coords': [[104.56, 29.77], [113, 28.21]]}, {'fromName': '无锡', 'toName': '长沙', 'coords': [[120.29, 31.59], [113, 28.21]]}, {'fromName': '杭州', 'toName': '长沙', 'coords': [[120.19, 30.26], [113, 28.21]]}, {'fromName': '株洲', 'toName': '长沙', 'coords': [[113.16, 27.83], [113, 28.21]]}, {'fromName': '武汉', 'toName': '长沙', 'coords': [[114.31, 30.52], [113, 28.21]]}, {'fromName': '海口', 'toName': '长沙', 'coords': [[110.35, 20.02], [113, 28.21]]}, {'fromName': '湖州', 'toName': '长沙', 'coords': [[120.1, 30.86], [113, 28.21]]}, {'fromName': '湘潭', 'toName': '长沙', 'coords': [[112.91, 27.87], [113, 28.21]]}, {'fromName': '衡阳', 'toName': '长沙', 'coords': [[112.5, 26.89], [113, 28.21]]}, {'fromName': '钦州', 'toName': '长沙', 'coords': [[108.37, 21.57], [113, 28.21]]}, {'fromName': '长春', 'toName': '长沙', 'coords': [[125.35, 43.88], [113, 28.21]]}], 'points': [{'name': '西安', 'value': [108.95, 34.27, 10]}, {'name': '北京', 'value': [116.46, 39.92, 10], 'label': {'normal': {'position': 'top'}}}, {'name': '南京', 'value': [118.78, 32.04, 10], 'label': {'normal': {'position': 'top'}}}, {'name': '上海', 'value': [121.48, 31.22, 10], 'label': {'normal': {'position': 'bottom'}}}, {'name': '深圳', 'value': [114.07, 22.62, 10], 'label': {'normal': {'position': 'bottom'}}}, {'name': '成都', 'value': [104.06, 30.67, 10], 'label': {'normal': {'position': 'left'}}}, {'name': '济南', 'value': [117, 36.65, 10]}, {'name': '天津', 'value': [117.2, 39.13, 10]}, {'name': '广州', 'value': [113.23, 23.16, 10]}, {'name': '苏州', 'value': [120.62, 31.32, 10], 'label': {'normal': {'position': 'left'}}}, {'name': '郑州', 'value': [113.65, 34.76, 10]}, {'name': '佛山', 'value': [113.11, 23.05, 10], 'label': {'normal': {'position': 'left'}}}, {'name': '兰州', 'value': [103.73, 36.03, 10]}, {'name': '合肥', 'value': [117.27, 31.86, 10], 'label': {'normal': {'position': 'left'}}}, {'name': '宜宾', 'value': [104.56, 29.77, 10]}, {'name': '无锡', 'value': [120.29, 31.59, 10]}, {'name': '杭州', 'value': [120.19, 30.26, 10], 'label': {'normal': {'position': 'bottom'}}}, {'name': '武汉', 'value': [114.31, 30.52, 10], 'label': {'normal': {'position': 'left'}}}, {'name': '海口', 'value': [110.35, 20.02, 10]}, {'name': '衡阳', 'value': [112.5, 26.89, 10]}, {'name': '钦州', 'value': [108.37, 21.57, 10]}, {'name': '长春', 'value': [125.35, 43.88, 10]}]};
+var allData = {
+    "starts": data.points,
+    "final": [{
+        "name": "长沙",
+        "value": [113,28.21],
+    }],
+    "history": [
+    {
+        "name": "长沙",
+        "value": [113,28.21],
+    },{
+        "name": "上海",
+        "value": [121.48,31.22, 20],
+    },{
+        "name": "西安",
+        "value": [108.95, 34.27, 50]
+    },{
+        "name": "成都",
+        "value": [104.06,30.67, 59]
+    },{
+        "name": "杭州",
+        "value": [120.19,30.26, 60],
+        "label": {
+            "normal": {
+                "position": 'bottom',
+            }
+        },
+    },{
+        "name": "苏州",
+        "value": [120.62,31.32, 50],
+        "label": {
+            "normal": {
+                "position": 'left',
+            }
+        },
+    },{
+        "name": "武汉",
+        "value": [114.31,30.52, 36],
+        "label": {
+            "normal": {
+                "position": 'left',
+            }
+        },
+    },{
+        "name": "深圳",
+        "value": [114.07,22.62, 161]
+    },{
+        "name": "北京",
+        "value": [116.46,39.92, 211]
+    }],
+    "gatherLines": data.lines
+}
+
+series = [
+    {
+        name: '历届黑客松地点',
+        type: 'effectScatter',
+        coordinateSystem: 'geo',
+        zlevel: 1,
+        rippleEffect: {
+            brushType: 'stroke'
+        },
+        hoverAnimation: true,
+        label: {
+            normal: {
+                formatter: '{b}',
+                position: 'right',
+                show: true
+            }
+        },
+        symbolSize: 8,
+        showEffectOn: 'render',
+        itemStyle: {
+            normal: {
+                color: '#fde790'
+            }
+        },
+        data: allData.history
+    },
+    {
+        name: '本届黑客松迁徙图', // final
+        type: 'effectScatter',
+        coordinateSystem: 'geo',
+        zlevel: 2,
+        rippleEffect: {
+            brushType: 'stroke'
+        },
+        hoverAnimation: true,
+        label: {
+            normal: {
+                formatter: '{b}',
+                position: 'right',
+                show: true
+            }
+        },
+        symbolSize: 10,
+        showEffectOn: 'render',
+        itemStyle: {
+            normal: {
+                color: '#fee88a'
+            }
+        },
+        data: allData.final
+    },
+    {
+        name: '本届黑客松迁徙图', //start
+        type: 'scatter',
+        coordinateSystem: 'geo',
+        zlevel: 2,
+        hoverAnimation: true,
+        label: {
+            normal: {
+                formatter: '{b}',
+                position: 'right',
+                show: true
+            }
+        },
+        symbolSize: 3,
+        showEffectOn: 'render',
+        itemStyle: {
+            normal: {
+                color: '#fee88a'
+            }
+        },
+        data: allData.starts
+    },
+    {
+        name: '本届黑客松迁徙图', // line
+        type: 'lines',
+        coordinateSystem: 'geo',
+        zlevel: 2,
+        large: true,
+        effect: {
+            show: true,
+            constantSpeed: 20,
+            symbol: 'pin',
+            symbolSize: 6,
+            trailLength: 0,
+        },
+        lineStyle: {
+            normal: {
+                color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                        offset: 0, color: '#fee88a'
+                    }, {
+                        offset: 1, color: '#fee88a'
+                    }], false),
+                width: 1,
+                opacity: 0.3,
+                curveness: 0.2
+            }
+        },
+        data: allData.gatherLines
+    }
+]
+
+option = {
+    title: {
+        text: '历届黑客松举办城市概览',
+        x: 'center',
+        y: 'top',
+        textStyle: {
+            color: '#fff'
+        }
+    },
+    tooltip : {
+        trigger: 'item',
+		formatter: function (params) {
+              if(typeof(params.value)[2] == "undefined"){
+              	return params.name + ' : ' + params.value;
+              }else{
+              	return params.name + ' : ' + params.value[2];
+              }
+            }
+    },
+
+    geo: {
+        map: 'china',
+        label: {
+            emphasis: {
+                show: false
+            }
+        },
+        roam: true,//禁止其放大缩小
+        itemStyle: {
+            normal: {
+                areaColor: '#4c60ff',
+                borderColor: '#002097'
+                
+            },
+            emphasis: {
+                areaColor: '#293fff'
+            }
+        },regions: [
+            {name: '广东', itemStyle: {areaColor: '#2d49fb'}},
+            {name: '湖南', itemStyle: {areaColor: '#2d49fb'}},
+            {name: '四川', itemStyle: {areaColor: '#2d49fb'}},
+            {name: '陕西', itemStyle: {areaColor: '#2d49fb'}},
+            {name: '北京', itemStyle: {areaColor: '#2d49fb'}},
+            {name: '江苏', itemStyle: {areaColor: '#2d49fb'}},
+            {name: '上海', itemStyle: {areaColor: '#2d49fb'}},
+            {name: '浙江', itemStyle: {areaColor: '#2d49fb'}},
+            {name: '湖北', itemStyle: {areaColor: '#2d49fb'}},
+        ]
+    },
+    legend: {
+        orient: 'horizontal',
+        top: 'bottom',
+        data: ['历届黑客松地点', '本届黑客松迁徙图'],
+        textStyle: {
+            color: '#fff'
+        },
+        selectedMode: 'single'
+    },
+    series : series
+};
+
+        myChart.setOption(option);
+        window.addEventListener("resize",function(){
+            myChart.resize();
+        });
+    }
+)
+
+
+
+
+</script>
+</body>
+</html>

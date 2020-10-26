@@ -1,0 +1,6 @@
+*.pyc
+*.class
+.DS_Store
+statistic/src/output/*
+statistic/src/input/*
+.idea
